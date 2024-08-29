@@ -1,0 +1,418 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Minecraft Launcher</title>
+    <style>
+        @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;600&display=swap');
+
+        /* Basic Reset */
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            font-family: 'Poppins', sans-serif;
+            margin: 0;
+            height: 100vh;
+            background: linear-gradient(135deg, #2d2d2d, #4f4f4f);
+            color: #ffffff;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            overflow: hidden;
+            position: relative;
+        }
+
+        h1 {
+            font-size: 4em;
+            margin-bottom: 50px;
+            color: #ffffff;
+            text-align: center;
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            -webkit-background-clip: text;
+            -webkit-text-fill-color: transparent;
+            animation: glow 2s infinite alternate;
+            font-weight: 600;
+            text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
+        }
+
+        @keyframes glow {
+            0% {
+                text-shadow: 0 0 10px rgba(0, 198, 255, 0.7), 0 0 20px rgba(0, 114, 255, 0.5);
+            }
+            100% {
+                text-shadow: 0 0 20px rgba(0, 198, 255, 1), 0 0 40px rgba(0, 114, 255, 0.7);
+            }
+        }
+
+        .menu, .info-menu, .hacked-menu {
+            display: none;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.5s ease-in-out;
+            z-index: 9;
+            font-size: 1.2em;
+            width: 300px;
+        }
+
+        @keyframes fadeInUp {
+            from {
+                opacity: 0;
+                transform: translateY(20px);
+            }
+            to {
+                opacity: 1;
+                transform: translateY(0);
+            }
+        }
+
+        .menu a, .info-menu a, .hacked-menu a {
+            display: block;
+            padding: 15px;
+            margin-bottom: 10px;
+            color: #ffffff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+            font-weight: 600;
+        }
+
+        .menu a:hover, .info-menu a:hover, .hacked-menu a:hover {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: #ffffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 198, 255, 0.9);
+        }
+
+        .cube, .info-button {
+            position: fixed;
+            bottom: 40px;
+            width: 80px;
+            height: 80px;
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 50%;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            transition: all 0.3s ease;
+            backdrop-filter: blur(15px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            z-index: 10;
+        }
+
+        .cube:hover, .info-button:hover {
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            box-shadow: 0 15px 40px rgba(0, 198, 255, 0.7);
+            transform: scale(1.1);
+        }
+
+        .cube {
+            left: 40px;
+        }
+
+        .info-button {
+            right: 40px;
+        }
+
+        .cube::before, .info-button::before {
+            content: '';
+            position: absolute;
+            top: 50%;
+            left: 50%;
+            width: 150%;
+            height: 150%;
+            border-radius: 50%;
+            background: radial-gradient(circle, rgba(0, 198, 255, 0.5) 0%, rgba(0, 114, 255, 0) 70%);
+            transform: translate(-50%, -50%);
+            z-index: -1;
+            opacity: 0.7;
+            animation: rotate 6s linear infinite;
+        }
+
+        @keyframes rotate {
+            from { transform: translate(-50%, -50%) rotate(0deg); }
+            to { transform: translate(-50%, -50%) rotate(360deg); }
+        }
+
+        .cube span, .info-button span {
+            font-size: 1.5em;
+            color: #ffffff;
+        }
+
+        /* Responsive adjustments */
+        @media (max-width: 768px) {
+            h1 {
+                font-size: 3em;
+            }
+            .cube, .info-button {
+                width: 70px;
+                height: 70px;
+            }
+        }
+
+        @media (max-width: 480px) {
+            h1 {
+                font-size: 2.5em;
+            }
+            .cube, .info-button {
+                width: 60px;
+                height: 60px;
+            }
+        }
+
+        /* Glassmorphism Effect */
+        .glass-effect {
+            background: rgba(255, 255, 255, 0.1);
+            border-radius: 15px;
+            padding: 20px;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .glass-effect:hover {
+            background: rgba(255, 255, 255, 0.2);
+            box-shadow: 0 6px 10px rgba(0, 0, 0, 0.2);
+        }
+
+        /* Neon Border Effect */
+        .neon-border {
+            position: relative;
+            padding: 10px;
+            border-radius: 12px;
+            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
+            transition: box-shadow 0.3s ease-in-out;
+        }
+
+        .neon-border:hover {
+            box-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.7);
+        }
+
+        /* Advanced Button Styling */
+        .button {
+            display: inline-block;
+            padding: 15px 30px;
+            margin: 10px;
+            font-size: 1em;
+            color: #ffffff;
+            background: linear-gradient(135deg, #00c6ff, #0072ff);
+            border: none;
+            border-radius: 10px;
+            text-align: center;
+            text-decoration: none;
+            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
+            cursor: pointer;
+            font-weight: 600;
+        }
+
+        .button:hover {
+            transform: scale(1.05);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
+            background: linear-gradient(135deg, #0072ff, #00c6ff);
+        }
+
+        /* Section Separators */
+        .section {
+            margin-bottom: 30px;
+        }
+
+        .section-title {
+            font-size: 1.8em;
+            margin-bottom: 15px;
+            text-align: center;
+            color: #ffffff;
+            text-shadow: 0 0 5px rgba(0, 198, 255, 0.7);
+        }
+
+        .section-content {
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+
+        .section-content img {
+            max-width: 100%;
+            height: auto;
+            border-radius: 12px;
+            margin-bottom: 20px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        /* Modal Styles */
+        .modal {
+            display: none;
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            justify-content: center;
+            align-items: center;
+            z-index: 15;
+        }
+
+        .modal-content {
+            background: rgba(255, 255, 255, 0.9);
+            border-radius: 15px;
+            padding: 30px;
+            width: 80%;
+            max-width: 600px;
+            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
+            text-align: center;
+            position: relative;
+        }
+
+        .modal-content h2 {
+            margin-bottom: 20px;
+            font-size: 2em;
+            color: #0072ff;
+        }
+
+        .modal-content p {
+            font-size: 1.2em;
+            color: #333;
+            margin-bottom: 20px;
+        }
+
+        .modal-content button {
+            background: #0072ff;
+            color: #ffffff;
+            border: none;
+            padding: 15px 30px;
+            border-radius: 10px;
+            font-size: 1em;
+            cursor: pointer;
+            transition: background 0.3s ease, box-shadow 0.3s ease;
+        }
+
+        .modal-content button:hover {
+            background: #0056b3;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
+        }
+
+        .modal-close {
+            position: absolute;
+            top: 15px;
+            right: 15px;
+            background: rgba(255, 255, 255, 0.8);
+            border: none;
+            border-radius: 50%;
+            width: 30px;
+            height: 30px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            cursor: pointer;
+            transition: background 0.3s ease;
+        }
+
+        .modal-close:hover {
+            background: rgba(255, 255, 255, 0.9);
+        }
+
+        .modal-close::before {
+            content: '✖';
+            font-size: 1.5em;
+            color: #333;
+        }
+
+        /* Additional Styling */
+        .highlight {
+            color: #00c6ff;
+            font-weight: bold;
+        }
+
+        .link {
+            color: #0072ff;
+            text-decoration: none;
+            font-weight: 600;
+        }
+
+        .link:hover {
+            text-decoration: underline;
+        }
+    </style>
+</head>
+<body>
+    <h1>Minecraft Launcher</h1>
+
+    <div class="cube" onclick="toggleMenu('menu')">
+        <span>&#10010;</span> <!-- Plus sign icon -->
+    </div>
+    <div class="info-button" onclick="toggleMenu('info-menu')">
+        <span>ℹ️</span> <!-- Information icon -->
+    </div>
+
+    <div id="menu" class="menu glass-effect neon-border">
+        <h2 class="section-title">Select Version</h2>
+        <a href="java-17.html" class="button">Java 17</a>
+        <a href="java-latest.html" class="button">Java Latest</a>
+        <a href="bedrock.html" class="button">Bedrock Edition</a>
+        <a href="hacked-clients/" class="button">Hacked Clients</a>
+    </div>
+
+    <div id="info-menu" class="info-menu glass-effect neon-border">
+        <h2 class="section-title">Information & Links</h2>
+        <a href="https://servers.eaglercraft.com/" class="button link">Eaglercraft Servers</a>
+        <a href="https://www.reddit.com/r/eaglercraft/" class="button link">Reddit Community</a>
+    </div>
+
+    <div id="hacked-clients" class="hacked-menu glass-effect neon-border">
+        <h2 class="section-title">Hacked Clients</h2>
+        <a href="hacked-clients/dragon-x.html" class="button">Dragon X</a>
+        <a href="hacked-clients/pi-client.html" class="button">Pi Client</a>
+        <a href="hacked-clients/justin-1.24.html" class="button">Justin 1.24</a>
+    </div>
+
+    <!-- Modal (for future use) -->
+    <div id="modal" class="modal">
+        <div class="modal-content">
+            <button class="modal-close"></button>
+            <h2>Welcome to Eaglercraft</h2>
+            <p>Explore various versions and hacked clients for a unique Minecraft experience.</p>
+            <button onclick="closeModal()">Close</button>
+        </div>
+    </div>
+
+    <script>
+        function toggleMenu(menuId) {
+            var menu = document.getElementById(menuId);
+            menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
+        }
+
+        function closeModal() {
+            document.getElementById('modal').style.display = 'none';
+        }
+
+        // Close menus when clicking outside
+        document.addEventListener('click', function(event) {
+            var menus = ['menu', 'info-menu', 'hacked-clients'];
+            if (!event.target.closest('.cube') && !event.target.closest('.info-button')) {
+                menus.forEach(function(menuId) {
+                    var menu = document.getElementById(menuId);
+                    if (menu.style.display === 'block') {
+                        menu.style.display = 'none';
+                    }
+                });
+            }
+        });
+    </script>
+</body>
+</html>
