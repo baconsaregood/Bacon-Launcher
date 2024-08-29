@@ -153,6 +153,47 @@
             color: #ffffff;
         }
 
+        .dropdown-content {
+            display: none;
+            position: absolute;
+            background: rgba(255, 255, 255, 0.2);
+            border-radius: 15px;
+            padding: 10px;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.6);
+            backdrop-filter: blur(10px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            animation: fadeInUp 0.5s ease-in-out;
+            z-index: 11;
+            font-size: 1.2em;
+            width: 300px;
+            top: 100%;
+            left: 0;
+        }
+
+        .dropdown-content a {
+            display: block;
+            padding: 10px;
+            margin-bottom: 5px;
+            color: #ffffff;
+            text-decoration: none;
+            background: rgba(255, 255, 255, 0.3);
+            border-radius: 12px;
+            text-align: center;
+            transition: all 0.3s ease;
+            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.6);
+        }
+
+        .dropdown-content a:hover {
+            background: linear-gradient(90deg, #00c6ff, #0072ff);
+            color: #ffffff;
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 198, 255, 0.9);
+        }
+
+        .dropdown-menu.show {
+            display: block;
+        }
+
         /* Responsive adjustments */
         @media (max-width: 768px) {
             h1 {
@@ -193,160 +234,32 @@
         /* Neon Border Effect */
         .neon-border {
             position: relative;
-            padding: 10px;
-            border-radius: 12px;
-            box-shadow: 0 0 10px rgba(0, 255, 255, 0.7), 0 0 20px rgba(0, 255, 255, 0.5);
-            transition: box-shadow 0.3s ease-in-out;
+            padding: 20px;
         }
 
-        .neon-border:hover {
-            box-shadow: 0 0 20px rgba(0, 255, 255, 1), 0 0 40px rgba(0, 255, 255, 0.7);
-        }
-
-        /* Advanced Button Styling */
-        .button {
-            display: inline-block;
-            padding: 15px 30px;
-            margin: 10px;
-            font-size: 1em;
-            color: #ffffff;
-            background: linear-gradient(135deg, #00c6ff, #0072ff);
-            border: none;
-            border-radius: 10px;
-            text-align: center;
-            text-decoration: none;
-            transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
-            box-shadow: 0 5px 15px rgba(0, 0, 0, 0.5);
-            cursor: pointer;
-            font-weight: 600;
-        }
-
-        .button:hover {
-            transform: scale(1.05);
-            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.7);
-            background: linear-gradient(135deg, #0072ff, #00c6ff);
-        }
-
-        /* Section Separators */
-        .section {
-            margin-bottom: 30px;
-        }
-
-        .section-title {
-            font-size: 1.8em;
-            margin-bottom: 15px;
-            text-align: center;
-            color: #ffffff;
-            text-shadow: 0 0 5px rgba(0, 198, 255, 0.7);
-        }
-
-        .section-content {
-            display: flex;
-            flex-direction: column;
-            align-items: center;
-        }
-
-        .section-content img {
-            max-width: 100%;
-            height: auto;
-            border-radius: 12px;
-            margin-bottom: 20px;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        /* Modal Styles */
-        .modal {
-            display: none;
-            position: fixed;
+        .neon-border::before {
+            content: '';
+            position: absolute;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.7);
-            justify-content: center;
-            align-items: center;
-            z-index: 15;
-        }
-
-        .modal-content {
-            background: rgba(255, 255, 255, 0.9);
             border-radius: 15px;
-            padding: 30px;
-            width: 80%;
-            max-width: 600px;
-            box-shadow: 0 10px 30px rgba(0, 0, 0, 0.7);
-            text-align: center;
-            position: relative;
+            background: rgba(0, 198, 255, 0.5);
+            z-index: -1;
+            filter: blur(10px);
+            box-shadow: 0 0 20px rgba(0, 198, 255, 0.7);
+            transition: box-shadow 0.3s ease;
         }
 
-        .modal-content h2 {
-            margin-bottom: 20px;
+        .neon-border:hover::before {
+            box-shadow: 0 0 30px rgba(0, 198, 255, 1);
+        }
+
+        .neon-border h2 {
             font-size: 2em;
-            color: #0072ff;
-        }
-
-        .modal-content p {
-            font-size: 1.2em;
-            color: #333;
-            margin-bottom: 20px;
-        }
-
-        .modal-content button {
-            background: #0072ff;
             color: #ffffff;
-            border: none;
-            padding: 15px 30px;
-            border-radius: 10px;
-            font-size: 1em;
-            cursor: pointer;
-            transition: background 0.3s ease, box-shadow 0.3s ease;
-        }
-
-        .modal-content button:hover {
-            background: #0056b3;
-            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.5);
-        }
-
-        .modal-close {
-            position: absolute;
-            top: 15px;
-            right: 15px;
-            background: rgba(255, 255, 255, 0.8);
-            border: none;
-            border-radius: 50%;
-            width: 30px;
-            height: 30px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            cursor: pointer;
-            transition: background 0.3s ease;
-        }
-
-        .modal-close:hover {
-            background: rgba(255, 255, 255, 0.9);
-        }
-
-        .modal-close::before {
-            content: '✖';
-            font-size: 1.5em;
-            color: #333;
-        }
-
-        /* Additional Styling */
-        .highlight {
-            color: #00c6ff;
-            font-weight: bold;
-        }
-
-        .link {
-            color: #0072ff;
-            text-decoration: none;
-            font-weight: 600;
-        }
-
-        .link:hover {
-            text-decoration: underline;
+            text-shadow: 0 0 10px rgba(0, 198, 255, 0.7);
         }
     </style>
 </head>
@@ -365,20 +278,18 @@
         <a href="java-17.html" class="button">Java 17</a>
         <a href="java-latest.html" class="button">Java Latest</a>
         <a href="bedrock.html" class="button">Bedrock Edition</a>
-        <a href="hacked-clients/" class="button">Hacked Clients</a>
+        <a href="#" class="button" onclick="toggleDropdown('hacked-dropdown')">Hacked Clients</a>
+        <div id="hacked-dropdown" class="dropdown-content glass-effect neon-border">
+            <a href="hacked-clients/dragon-x.html" class="button">Dragon X</a>
+            <a href="hacked-clients/pi-client.html" class="button">Pi Client</a>
+            <a href="hacked-clients/justin-1.24.html" class="button">Justin 1.24</a>
+        </div>
     </div>
 
     <div id="info-menu" class="info-menu glass-effect neon-border">
         <h2 class="section-title">Information & Links</h2>
         <a href="https://servers.eaglercraft.com/" class="button link">Eaglercraft Servers</a>
         <a href="https://www.reddit.com/r/eaglercraft/" class="button link">Reddit Community</a>
-    </div>
-
-    <div id="hacked-clients" class="hacked-menu glass-effect neon-border">
-        <h2 class="section-title">Hacked Clients</h2>
-        <a href="hacked-clients/dragon-x.html" class="button">Dragon X</a>
-        <a href="hacked-clients/pi-client.html" class="button">Pi Client</a>
-        <a href="hacked-clients/justin-1.24.html" class="button">Justin 1.24</a>
     </div>
 
     <!-- Modal (for future use) -->
@@ -397,20 +308,29 @@
             menu.style.display = menu.style.display === 'none' || menu.style.display === '' ? 'block' : 'none';
         }
 
+        function toggleDropdown(dropdownId) {
+            var dropdown = document.getElementById(dropdownId);
+            dropdown.classList.toggle('show');
+        }
+
         function closeModal() {
             document.getElementById('modal').style.display = 'none';
         }
 
-        // Close menus when clicking outside
+        // Close menus and dropdowns when clicking outside
         document.addEventListener('click', function(event) {
-            var menus = ['menu', 'info-menu', 'hacked-clients'];
-            if (!event.target.closest('.cube') && !event.target.closest('.info-button')) {
+            var menus = ['menu', 'info-menu'];
+            var dropdown = document.getElementById('hacked-dropdown');
+            if (!event.target.closest('.cube') && !event.target.closest('.info-button') && !event.target.closest('.button')) {
                 menus.forEach(function(menuId) {
                     var menu = document.getElementById(menuId);
                     if (menu.style.display === 'block') {
                         menu.style.display = 'none';
                     }
                 });
+                if (dropdown.classList.contains('show')) {
+                    dropdown.classList.remove('show');
+                }
             }
         });
     </script>
